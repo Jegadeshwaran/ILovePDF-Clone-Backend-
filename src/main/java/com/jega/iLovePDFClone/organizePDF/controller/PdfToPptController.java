@@ -24,6 +24,15 @@ public class PdfToPptController {
     @PostMapping("/pdf-to-ppt/")
     public void convertPdfToPpt(@RequestParam("file") MultipartFile file,
                                 HttpServletResponse response) throws IOException {
+    	
+    	
+        if (file == null || file.isEmpty()) {
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            response.setContentType("text/plain");
+            response.getWriter().write("No file uploaded or file is empty.");
+            return;
+        }
+    	
         byte[] pptBytes = null;
 		try {
 			pptBytes = pdfToPptServices.convertPdfToPpt(file);
